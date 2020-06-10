@@ -15,8 +15,7 @@ public class CityService {
     @Autowired
     CityRepository repository;
 
-    public List<CityEntity> getAllCities()
-    {
+    public List<CityEntity> getAllCities() {
         List<CityEntity> cityList = repository.findAll();
 
         if(cityList.size() > 0) {
@@ -26,19 +25,22 @@ public class CityService {
         }
     }
 
-    public List<CityEntity> getCityByName(String name) throws NullPointerException
-    {
+    public List<CityEntity> getCityByName(String name) {
         List<CityEntity> city = repository.findByName(name);
 
-        if(!city.isEmpty()) {
-            return city;
-        } else {
-            throw new NullPointerException("No city exists for given name");
-        }
+//        try{
+//            if(city.size() == 0) {
+//                throw new NullPointerException("No city exists for given name");
+//            } else {
+//                return city;
+//            }
+//        } catch (NullPointerException e){
+//            System.out.println(e);
+//        }
+        return city;
     }
 
-    public List<CityEntity> createOrUpdateCity(CityEntity entity) throws NullPointerException
-    {
+    public List<CityEntity> createOrUpdateCity(CityEntity entity) throws NullPointerException {
         List<CityEntity> city = repository.findByName(entity.getName());
 
         if(!city.isEmpty()) {
@@ -63,15 +65,24 @@ public class CityService {
     }
 
     @Transactional
-    public void deleteCityByName(String name) throws NullPointerException
-    {
+    public void deleteCityByName(String name) {
         List<CityEntity> city = repository.findByName(name);
 
-        if(!city.isEmpty()) {
-            repository.deleteByName(name);
-        } else {
-            throw new NullPointerException("No city exists for given name");
+        try{
+            if(!city.isEmpty()) {
+                repository.deleteByName(name);
+            } else {
+                throw new NullPointerException("No city exists for given name");
+            }
+        } catch (NullPointerException e){
+            System.out.println(e);
         }
+
+//        if(!city.isEmpty()) {
+//            repository.deleteByName(name);
+//        } else {
+//            throw new NullPointerException("No city exists for given name");
+//        }
     }
 }
 

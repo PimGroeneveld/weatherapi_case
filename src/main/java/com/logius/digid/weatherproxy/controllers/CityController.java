@@ -25,8 +25,12 @@ public class CityController {
 
     @GetMapping("cities/{name}")
     public ResponseEntity<CityEntity> getCityByName(@PathVariable("name") String name) throws NullPointerException {
-        CityEntity entity = service.getCityByName(name).get(0);
-        return new ResponseEntity<CityEntity>(entity, new HttpHeaders(), HttpStatus.OK);
+        List<CityEntity> entity = service.getCityByName(name);
+        if(entity.size() == 0){
+            return new ResponseEntity("404. No match found for city with name: " + name, new HttpHeaders(), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<CityEntity>(entity.get(0), new HttpHeaders(), HttpStatus.OK);
+
     }
 
     @PostMapping("cities/{name}")
