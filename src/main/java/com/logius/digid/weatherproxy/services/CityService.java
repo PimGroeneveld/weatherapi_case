@@ -5,6 +5,7 @@ import com.logius.digid.weatherproxy.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,8 +41,7 @@ public class CityService {
     {
         List<CityEntity> city = repository.findByName(entity.getName());
 
-        if(!city.isEmpty())
-        {
+        if(!city.isEmpty()) {
             CityEntity newEntity = city.get(0);
             newEntity.setName(entity.getName());
             newEntity.setMinTemp(entity.getMinTemp());
@@ -62,12 +62,12 @@ public class CityService {
         }
     }
 
+    @Transactional
     public void deleteCityByName(String name) throws NullPointerException
     {
         List<CityEntity> city = repository.findByName(name);
 
-        if(!city.isEmpty())
-        {
+        if(!city.isEmpty()) {
             repository.deleteByName(name);
         } else {
             throw new NullPointerException("No city exists for given name");
