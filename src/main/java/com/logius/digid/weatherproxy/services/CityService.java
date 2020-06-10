@@ -26,18 +26,7 @@ public class CityService {
     }
 
     public List<CityEntity> getCityByName(String name) {
-        List<CityEntity> city = repository.findByName(name);
-
-//        try{
-//            if(city.size() == 0) {
-//                throw new NullPointerException("No city exists for given name");
-//            } else {
-//                return city;
-//            }
-//        } catch (NullPointerException e){
-//            System.out.println(e);
-//        }
-        return city;
+        return repository.findByName(name);
     }
 
     public List<CityEntity> createOrUpdateCity(CityEntity entity) throws NullPointerException {
@@ -66,23 +55,7 @@ public class CityService {
 
     @Transactional
     public void deleteCityByName(String name) {
-        List<CityEntity> city = repository.findByName(name);
-
-        try{
-            if(!city.isEmpty()) {
-                repository.deleteByName(name);
-            } else {
-                throw new NullPointerException("No city exists for given name");
-            }
-        } catch (NullPointerException e){
-            System.out.println(e);
-        }
-
-//        if(!city.isEmpty()) {
-//            repository.deleteByName(name);
-//        } else {
-//            throw new NullPointerException("No city exists for given name");
-//        }
+        repository.deleteByName(name);
     }
 }
 
