@@ -27,7 +27,7 @@ public class CityController {
     @GetMapping("cities/{name}")
     public ResponseEntity<CityEntity> getCityByName(@PathVariable("name") String name)
             throws NullPointerException {
-        CityEntity entity = service.getCityByName(name);
+        CityEntity entity = service.getCityByName(name).get(0);
 
         return new ResponseEntity<CityEntity>(entity, new HttpHeaders(), HttpStatus.OK);
     }
@@ -35,7 +35,7 @@ public class CityController {
     @PostMapping("cities/{name}")
     public ResponseEntity<CityEntity> createOrUpdateCity(CityEntity city)
             throws NullPointerException {
-        CityEntity updated = service.createOrUpdateCity(city);
+        CityEntity updated = service.createOrUpdateCity(city).get(0);
         return new ResponseEntity<CityEntity>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 

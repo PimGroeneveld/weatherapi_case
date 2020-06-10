@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CityService {
@@ -26,44 +25,48 @@ public class CityService {
         }
     }
 
-    public CityEntity getCityByName(String name) throws NullPointerException
+    public List<CityEntity> getCityByName(String name) throws NullPointerException
     {
-        Optional<CityEntity> city = repository.findByName(name);
+        List<CityEntity> city = repository.findByName(name);
 
-        if(city.isPresent()) {
-            return city.get();
+        if(!city.isEmpty()) {
+            return city;
         } else {
             throw new NullPointerException("No city exists for given name");
         }
     }
 
-    public CityEntity createOrUpdateCity(CityEntity entity) throws NullPointerException
+    public List<CityEntity> createOrUpdateCity(CityEntity entity) throws NullPointerException
     {
-        Optional<CityEntity> city = repository.findByName(entity.getName());
+        List<CityEntity> city = repository.findByName(entity.getName());
 
-        if(city.isPresent())
+        if(!city.isEmpty())
         {
-            CityEntity newEntity = city.get();
+            CityEntity newEntity = city.get(0);
             newEntity.setName(entity.getName());
             newEntity.setMinTemp(entity.getMinTemp());
             newEntity.setMaxTemp(entity.getMaxTemp());
             newEntity.setSunrise(entity.getSunrise());
 
             newEntity = repository.save(newEntity);
+            List<CityEntity> result = new ArrayList<>();
+            result.add(newEntity);
 
-            return newEntity;
+            return result;
         } else {
             entity = repository.save(entity);
+            List<CityEntity> result = new ArrayList<>();
+            result.add(entity);
 
-            return entity;
+            return result;
         }
     }
 
     public void deleteCityByName(String name) throws NullPointerException
     {
-        Optional<CityEntity> city = repository.findByName(name);
+        List<CityEntity> city = repository.findByName(name);
 
-        if(city.isPresent())
+        if(!city.isEmpty())
         {
             repository.deleteByName(name);
         } else {

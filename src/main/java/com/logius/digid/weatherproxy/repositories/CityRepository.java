@@ -6,10 +6,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.ws.rs.PathParam;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface CityRepository extends JpaRepository<CityEntity, Long> {
-    Optional findByName(@Param("name") String name);
+
+    List<CityEntity> findByName(@Param("name") String name);
     void deleteByName(@PathParam("name") String name);
 }
