@@ -1,12 +1,18 @@
 package com.logius.digid.weatherproxy.controllers;
 
+import com.logius.digid.weatherproxy.WeatherproxyApplication;
 import com.logius.digid.weatherproxy.entities.CityEntity;
 import com.logius.digid.weatherproxy.services.CityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.util.List;
 
@@ -16,6 +22,11 @@ public class CityController {
 
     @Autowired
     CityService service;
+
+    @Value("${api.key}")
+    private String apiKey;
+
+    private static final Logger log = LoggerFactory.getLogger(WeatherproxyApplication.class);
 
     @GetMapping("/cities")
     public ResponseEntity<List<CityEntity>> getAllCities() {
@@ -29,8 +40,11 @@ public class CityController {
         if(entity.size() == 0){
             return new ResponseEntity("404. No match found for city with name: " + name, new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<CityEntity>(entity.get(0), new HttpHeaders(), HttpStatus.OK);
-
+        RestTemplate restTemplate = new RestTemplate();
+        CityEntity city = restTemplate.getForObject(
+                "https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+apiKey, CityEntity.class);
+        log.info(city.toString());
+        return new ResponseEntity<CityEntity>(new CityEntity(city.getName(), city.getMinTemp(), city.getMaxTemp(), city.getSunrise()), new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("cities/{name}")

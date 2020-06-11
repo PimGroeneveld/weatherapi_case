@@ -13,4 +13,5 @@ public interface CityRepository extends JpaRepository<CityEntity, Long> {
 
     List<CityEntity> findByName(@Param("name") String name);
     void deleteByName(@PathParam("name") String name);
+
 }

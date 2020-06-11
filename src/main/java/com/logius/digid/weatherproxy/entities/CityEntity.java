@@ -1,9 +1,12 @@
 package com.logius.digid.weatherproxy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "cities")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CityEntity {
 
     @Id
@@ -13,10 +16,10 @@ public class CityEntity {
     @Column
     private String name;
 
-    @Column(name= "min_temp")
+    @Column(name= "temp_min")
     private double minTemp;
 
-    @Column
+    @Column(name= "temp_max")
     private double maxTemp;
 
     @Column
@@ -62,5 +65,16 @@ public class CityEntity {
 
     public void setSunrise(long sunrise) {
         this.sunrise = sunrise;
+    }
+
+    @Override
+    public String toString() {
+        return "Value{" +
+                "id = " + Id +
+                ", name = '" + name + '\'' +
+                ", minimum temperature = '" + minTemp + '\'' +
+                ", maximum temperature = '" + maxTemp + '\'' +
+                ", sunrise = '" + sunrise + '\'' +
+                '}';
     }
 }
