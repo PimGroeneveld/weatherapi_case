@@ -1,8 +1,12 @@
 package com.logius.digid.weatherproxy.entities;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Map;
 
 @Entity
 @Table(name = "cities")
@@ -11,24 +15,31 @@ public class CityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @JsonProperty("id")
     private Long Id;
 
     @Column
+//    @JsonProperty("name")
     private String name;
 
     @Column(name= "temp_min")
-    private double minTemp;
+//    @JsonProperty("main")
+//    @JsonAlias("temp_min")
+    private Double minTemp;
 
     @Column(name= "temp_max")
-    private double maxTemp;
+//    @JsonProperty("main")
+//    @JsonAlias("temp_max")
+    private Double maxTemp;
 
     @Column
-    private long sunrise;
+//    @JsonProperty("sys")
+    private int sunrise;
 
     public CityEntity() {
     }
 
-    public CityEntity(String name, double minTemp, double maxTemp, long sunrise) {
+    public CityEntity(String name, Double minTemp, Double maxTemp, int sunrise) {
         this.name = name;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
@@ -39,6 +50,7 @@ public class CityEntity {
         return name;
     }
 
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -47,7 +59,7 @@ public class CityEntity {
         return minTemp;
     }
 
-    public void setMinTemp(double minTemp) {
+    public void setMinTemp(Double minTemp) {
         this.minTemp = minTemp;
     }
 
@@ -55,16 +67,29 @@ public class CityEntity {
         return maxTemp;
     }
 
-    public void setMaxTemp(double maxTemp) {
+    public void setMaxTemp(Double maxTemp) {
         this.maxTemp = maxTemp;
     }
 
-    public long getSunrise() {
+    public int getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(long sunrise) {
+    public void setSunrise(int sunrise) {
         this.sunrise = sunrise;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonProperty("main")
+    private void unpackNestedTemp(Map<String,Object> main) {
+        this.minTemp = (Double)main.get("temp_min");
+        this.maxTemp = (Double)main.get("temp_max");
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonProperty("sys")
+    private void unpackNestedSunrise(Map<String,Object> sys) {
+        this.sunrise = (int)sys.get("sunrise");
     }
 
     @Override

@@ -28,7 +28,7 @@ public class CityController {
 
     private static final Logger log = LoggerFactory.getLogger(WeatherproxyApplication.class);
 
-    @GetMapping("/cities")
+    @GetMapping("cities")
     public ResponseEntity<List<CityEntity>> getAllCities() {
         List<CityEntity> list = service.getAllCities();
         return new ResponseEntity<List<CityEntity>>(list, new HttpHeaders(), HttpStatus.OK);
@@ -43,13 +43,19 @@ public class CityController {
         RestTemplate restTemplate = new RestTemplate();
         CityEntity city = restTemplate.getForObject(
                 "https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+apiKey, CityEntity.class);
-        log.info(city.toString());
-        return new ResponseEntity<CityEntity>(new CityEntity(city.getName(), city.getMinTemp(), city.getMaxTemp(), city.getSunrise()), new HttpHeaders(), HttpStatus.OK);
+        log.info("city from cities/{name}: " + city.toString());
+        return new ResponseEntity<CityEntity>(city, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("cities/{name}")
     public ResponseEntity<CityEntity> createOrUpdateCity(CityEntity city) throws NullPointerException {
         CityEntity updated = service.createOrUpdateCity(city).get(0);
+
+        RestTemplate restTemplate = new RestTemplate();
+        CityEntity cityEntity = restTemplate.getForObject(
+                "https://api.openweathermap.org/data/2.5/weather?q="+city.getName()+"&appid="+apiKey, CityEntity.class);
+        log.info(city.toString());
+
         return new ResponseEntity<CityEntity>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -58,5 +64,14 @@ public class CityController {
         service.deleteCityByName(name);
         return HttpStatus.FORBIDDEN;
     }
+
+//    @GetMapping("temperature/{name}")
+//    public ResponseEntity<CityEntity> getTemperaturebyLocationCoordinates(@PathVariable("name") String name) {
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<CityEntity> response = restTemplate
+//                .getForEntity("https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+apiKey, CityEntity.class);
+//        log.info(response.toString());
+//        return response;
+//    }
 
 }
