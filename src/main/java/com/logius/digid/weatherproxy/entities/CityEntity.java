@@ -1,7 +1,5 @@
 package com.logius.digid.weatherproxy.entities;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,25 +13,19 @@ public class CityEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @JsonProperty("id")
+    @JsonProperty("id")
     private Long Id;
 
     @Column
-//    @JsonProperty("name")
     private String name;
 
     @Column(name= "temp_min")
-//    @JsonProperty("main")
-//    @JsonAlias("temp_min")
     private Double minTemp;
 
     @Column(name= "temp_max")
-//    @JsonProperty("main")
-//    @JsonAlias("temp_max")
     private Double maxTemp;
 
     @Column
-//    @JsonProperty("sys")
     private int sunrise;
 
     public CityEntity() {

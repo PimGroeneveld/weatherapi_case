@@ -19,19 +19,4 @@ public class WeatherproxyApplication {
 		SpringApplication.run(WeatherproxyApplication.class, args);
 	}
 
-//	@Bean
-//	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-//		return builder.build();
-//	}
-//
-//	@Bean
-//	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
-//		return args -> {
-//			String key = "e617cfacae8e5b0dfc77a7b8044c3d1d";
-//			CityEntity city = restTemplate.getForObject(
-//					"https://api.openweathermap.org/data/2.5/weather?q=Utrecht&appid=" + key, CityEntity.class);
-//			log.info(city.toString());
-//		};
-//	}
-
 }

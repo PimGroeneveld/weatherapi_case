@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
-
 import java.util.List;
 
 @RestController
@@ -64,14 +63,5 @@ public class CityController {
         service.deleteCityByName(name);
         return HttpStatus.FORBIDDEN;
     }
-
-//    @GetMapping("temperature/{name}")
-//    public ResponseEntity<CityEntity> getTemperaturebyLocationCoordinates(@PathVariable("name") String name) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<CityEntity> response = restTemplate
-//                .getForEntity("https://api.openweathermap.org/data/2.5/weather?q="+name+"&appid="+apiKey, CityEntity.class);
-//        log.info(response.toString());
-//        return response;
-//    }
 
 }
