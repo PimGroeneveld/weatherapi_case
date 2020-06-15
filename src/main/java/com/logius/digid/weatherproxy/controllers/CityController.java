@@ -27,6 +27,11 @@ public class CityController {
 
     private static final Logger log = LoggerFactory.getLogger(WeatherproxyApplication.class);
 
+    @RequestMapping("/")
+    public String home() {
+        return "Running this via Docker";
+    }
+
     @GetMapping("cities")
     public ResponseEntity<List<CityEntity>> getAllCities() {
         List<CityEntity> list = service.getAllCities();
