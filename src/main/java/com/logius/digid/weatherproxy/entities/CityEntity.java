@@ -47,7 +47,7 @@ public class CityEntity {
         this.name = name;
     }
 
-    public double getMinTemp() {
+    public Double getMinTemp() {
         return minTemp;
     }
 
@@ -55,7 +55,7 @@ public class CityEntity {
         this.minTemp = minTemp;
     }
 
-    public double getMaxTemp() {
+    public Double getMaxTemp() {
         return maxTemp;
     }
 
