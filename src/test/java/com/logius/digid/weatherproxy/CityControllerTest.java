@@ -20,9 +20,9 @@ public class CityControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldReturnRotterdamFromWeatherApi() throws Exception {
+    public void shouldReturnRotterdamIdFromWeatherApi() throws Exception {
         this.mockMvc.perform(get("/weatherproxy/cities/Rotterdam")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("minTemp\":289.82,\"maxTemp\":292.59,\"sunrise\":1592104928,\"id\":2747891,\"name\":\"Rotterdam")));
+                .andExpect(content().string(containsString("2747891")));
     }
 
 }

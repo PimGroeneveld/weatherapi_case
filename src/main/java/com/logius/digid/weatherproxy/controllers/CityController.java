@@ -54,12 +54,6 @@ public class CityController {
     @PostMapping("cities/{name}")
     public ResponseEntity<CityEntity> createOrUpdateCity(CityEntity city) throws NullPointerException {
         CityEntity updated = service.createOrUpdateCity(city).get(0);
-
-        RestTemplate restTemplate = new RestTemplate();
-        CityEntity cityEntity = restTemplate.getForObject(
-                "https://api.openweathermap.org/data/2.5/weather?q="+city.getName()+"&appid="+apiKey, CityEntity.class);
-        log.info(city.toString());
-
         return new ResponseEntity<CityEntity>(updated, new HttpHeaders(), HttpStatus.OK);
     }
 
