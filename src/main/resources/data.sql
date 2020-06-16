@@ -3,9 +3,9 @@ DROP TABLE IF EXISTS cities;
 CREATE TABLE cities (
   id INT AUTO_INCREMENT  PRIMARY KEY,
   name VARCHAR(250) NOT NULL,
-  temp_min VARCHAR(250) NOT NULL,
-  temp_max VARCHAR(250) DEFAULT NULL,
-  sunrise INT NOT NULL
+  temp_min VARCHAR(250),
+  temp_max VARCHAR(250),
+  sunrise INT
 );
 
 INSERT INTO cities (name, temp_min, temp_max, sunrise) VALUES

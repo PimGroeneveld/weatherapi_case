@@ -14,7 +14,7 @@ public class CityEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    private Long Id;
+    private Long id;
 
     @Column
     private String name;
@@ -32,6 +32,14 @@ public class CityEntity {
     }
 
     public CityEntity(String name, Double minTemp, Double maxTemp, int sunrise) {
+        this.name = name;
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
+        this.sunrise = sunrise;
+    }
+
+    public CityEntity(Long id, String name, Double minTemp, Double maxTemp, int sunrise) {
+        this.id = id;
         this.name = name;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
@@ -87,7 +95,7 @@ public class CityEntity {
     @Override
     public String toString() {
         return "Value{" +
-                "id = " + Id +
+                "id = " + id +
                 ", name = '" + name + '\'' +
                 ", minimum temperature = '" + minTemp + '\'' +
                 ", maximum temperature = '" + maxTemp + '\'' +
